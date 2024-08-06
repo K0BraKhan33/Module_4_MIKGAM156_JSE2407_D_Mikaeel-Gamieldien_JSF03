@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-green min-h-screen min-w-screen">
+  <div class="bg-purple min-h-screen min-w-screen">
     <!-- Header Section -->
-    <header class="bg-green-800 p-4 flex items-center">
+    <header class="bg-purple-800 p-4 flex items-center">
       <a id="backLink" href="#" class="text-white text-[4vw] font-bold flex items-center space-x-2">
         <!-- Back Arrow Icon -->
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Product Details Section -->
-      <div v-else class="border-2 border-green bg-green-300 shadow-md rounded-lg w-full p-4">
+      <div v-else class="border-2 border-purple bg-purple-300 shadow-md rounded-lg w-full p-4">
         <!-- Product Title -->
         <h1 class="text-[5vw] sm:text-[4vw] md:text-[3vw] lg:text-[2.5vw] xl:text-[2vw] font-bold mb-0 border-gray-300">
           {{ product.title }}
@@ -34,7 +34,7 @@
         </p>
 
         <!-- Product Description -->
-        <div class="scroll-box sm:max-h-[60vw] md:max-h-[70vw] lg:max-h-[80vw] border border-green-dark rounded mb-0">
+        <div class="scroll-box sm:max-h-[60vw] md:max-h-[70vw] lg:max-h-[80vw] border border-purple-dark rounded mb-0">
           <p class="text-[4vw] sm:text-[4vw] md:text-[2vw] lg:text-[1.5vw] border-gray-300">
             {{ product.description || 'N/A' }}
           </p>

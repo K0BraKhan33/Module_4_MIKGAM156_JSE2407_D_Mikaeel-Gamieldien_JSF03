@@ -9,7 +9,7 @@ export default function useProductList() {
   const categories = ref([]);
 
   function initializeFiltersFromUrl() {
-    const urlParams = new URLSearchParams(window.location.hash.slice(1));
+    const urlParams = new URLSearchParams(window.location.hash.slice(1).split('?')[1]);
     sortPrice.value = urlParams.get('sortPrice') || '';
     sortType.value = urlParams.get('sortType') || '';
   }
@@ -62,7 +62,7 @@ export default function useProductList() {
 
   function handleSortChange() {
     const url = new URL(window.location);
-    url.hash = `#${new URLSearchParams({ sortPrice: sortPrice.value, sortType: sortType.value }).toString()}`;
+    url.hash = `#/?${new URLSearchParams({ sortPrice: sortPrice.value, sortType: sortType.value }).toString()}`;
     window.history.pushState({}, '', url);
   }
 

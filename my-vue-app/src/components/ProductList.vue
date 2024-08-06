@@ -1,35 +1,22 @@
 <template>
-  <div class="bg-green-800 min-h-screen p-4">
+  <div class="bg-purple-800 min-h-screen p-4">
     <!-- Header Section -->
-    <header class="bg-green-800 p-4 flex justify-between items-center">
+    <header class="bg-purple-800 p-4 flex justify-between items-center">
       <div class="flex items-center">
         <h1 class="text-white text-[4vw] font-bold">GoodMarting</h1>
       </div>
     </header>
 
     <!-- Sorting and Filtering -->
-    <div class="bg-green-300 flex p-max space-x-4">
-      <div>
-        <label for="sortPrice" class="block text-sm font-medium text-gray-700">Sort by Title or Price</label>
-        <select id="sortPrice" v-model="sortPrice" @change="handleSortChange"
-          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-          <option value="">Select</option>
-          <option value="priceAsc">Price: Low to High</option>
-          <option value="priceDesc">Price: High to Low</option>
-          <option value="titleAsc">Title: A to Z</option>
-          <option value="titleDesc">Title: Z to A</option>
-        </select>
-      </div>
-      <div>
-        <label for="sortType" class="block text-sm font-medium text-gray-700">Sort by Type</label>
-        <select id="sortType" v-model="sortType" @change="handleSortChange"
-          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-          <option value="">Select</option>
-          <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-        </select>
-      </div>
-      <button v-if="!isDefaultSort" @click="resetFilters" class="mt-6 py-2 px-4 bg-red-500 text-white rounded-md">Reset Filters</button>
-    </div>
+    <SortControls
+      :sortPrice="sortPrice"
+      :sortType="sortType"
+      :categories="categories"
+      :isDefaultSort="isDefaultSort"
+      @update:sortPrice="updateSortPrice"
+      @update:sortType="updateSortType"
+      @sort-change="handleSortChange"
+    />
 
     <!-- Product List -->
     <div>
@@ -39,7 +26,7 @@
       <ul v-else class="flex flex-wrap -mx-4">
         <li v-for="item in filteredItems" :key="item.id" class="flex flex-col w-full md:w-1/2 lg:w-1/4 p-4 min-h-[60vw] sm:min-h-[25vw] md:min-h-[20vw] lg:min-h-[15vw] cursor-pointer">
           <a :href="`/#/about?id=${item.id}&sortPrice=${sortPrice}&sortType=${sortType}`" class="block h-full">
-            <div class="border-2 border-green-800 bg-green-300 p-4 rounded-lg h-full flex flex-col">
+            <div class="border-2 border-purple-800 bg-purple-300 p-4 rounded-lg h-full flex flex-col">
               <img :src="item.image" :alt="item.title" class="w-full max-h-[35vw] sm:max-h-[20vw] md:max-h-[30vw] lg:max-h-[25vw] object-contain mb-4">
               <div class="flex flex-col flex-grow">
                 <div class="mb-4">
@@ -75,21 +62,35 @@
 
 <script>
 import useProductList from './ProductList.js';
+import SortControls from './SortControls.vue';
 
 export default {
   name: 'ProductList',
+  components: {
+    SortControls
+  },
   setup() {
-    const { 
-      items, 
-      filteredItems, 
-      isLoading, 
-      sortPrice, 
-      sortType, 
-      categories, 
-      handleSortChange, 
-      resetFilters, 
-      isDefaultSort 
+    const {
+      items,
+      filteredItems,
+      isLoading,
+      sortPrice,
+      sortType,
+      categories,
+      handleSortChange,
+      resetFilters,
+      isDefaultSort
     } = useProductList();
+
+    function updateSortPrice(newSortPrice) {
+      sortPrice.value = newSortPrice;
+      handleSortChange();
+    }
+
+    function updateSortType(newSortType) {
+      sortType.value = newSortType;
+      handleSortChange();
+    }
 
     return {
       items,
@@ -100,7 +101,9 @@ export default {
       categories,
       handleSortChange,
       resetFilters,
-      isDefaultSort
+      isDefaultSort,
+      updateSortPrice,
+      updateSortType
     };
   }
 };
