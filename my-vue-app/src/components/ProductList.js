@@ -1,5 +1,9 @@
 import { ref, onMounted, watch, computed } from 'vue';
 
+/**
+ * Composable function to handle product list logic in a Vue component.
+ * @returns {Object} An object containing reactive properties and methods for managing the product list.
+ */
 export default function useProductList() {
   const items = ref([]);
   const filteredItems = ref([]);
@@ -8,6 +12,9 @@ export default function useProductList() {
   const sortType = ref('');
   const categories = ref([]);
 
+  /**
+   * Initializes filters from the URL hash parameters.
+   */
   function initializeFiltersFromUrl() {
     const urlParams = new URLSearchParams(window.location.hash.slice(1).split('?')[1]);
     sortPrice.value = urlParams.get('sortPrice') || '';
@@ -60,18 +67,28 @@ export default function useProductList() {
     filteredItems.value = currentItems;
   }, { immediate: true });
 
+  /**
+   * Updates the URL hash to include current sorting and filtering parameters.
+   */
   function handleSortChange() {
     const url = new URL(window.location);
     url.hash = `#/?${new URLSearchParams({ sortPrice: sortPrice.value, sortType: sortType.value }).toString()}`;
     window.history.pushState({}, '', url);
   }
 
+  /**
+   * Resets the sorting and filtering parameters and updates the URL.
+   */
   function resetFilters() {
     sortPrice.value = '';
     sortType.value = '';
     handleSortChange();
   }
 
+  /**
+   * Computes whether the current sorting is the default (no sorting or filtering applied).
+   * @returns {boolean} `true` if no sorting or filtering is applied, `false` otherwise.
+   */
   const isDefaultSort = computed(() => !sortPrice.value && !sortType.value);
 
   return {

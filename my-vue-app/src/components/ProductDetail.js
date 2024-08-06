@@ -1,5 +1,9 @@
 import { ref, onMounted } from 'vue';
 
+/**
+ * Composable function to handle product detail logic in a Vue component.
+ * @returns {Object} An object containing reactive properties and methods for product details.
+ */
 export function useProductDetail() {
   const product = ref({});
   const isFavorited = ref(false);
@@ -7,6 +11,9 @@ export function useProductDetail() {
   const sortPrice = ref('');
   const sortType = ref('');
 
+  /**
+   * Initializes the component by retrieving query parameters from the URL and fetching product data.
+   */
   const init = () => {
     // Retrieve query parameters from the URL hash
     const urlHash = window.location.hash;
@@ -21,6 +28,10 @@ export function useProductDetail() {
     fetchProductData(id);
   };
 
+  /**
+   * Fetches product data from the API based on the provided product ID.
+   * @param {string} id - The product ID to fetch data for.
+   */
   const fetchProductData = async (id) => {
     if (id) {
       console.log('Fetching product with ID:', id);
@@ -61,6 +72,9 @@ export function useProductDetail() {
     }
   };
 
+  /**
+   * Updates the back link with the current sorting and filtering parameters.
+   */
   const updateBackLink = () => {
     const backLink = document.getElementById('backLink');
     if (backLink) {
@@ -71,6 +85,11 @@ export function useProductDetail() {
     }
   };
 
+  /**
+   * Checks if a product is in the wishlist.
+   * @param {string} productId - The ID of the product to check.
+   * @returns {boolean} `true` if the product is in the wishlist, `false` otherwise.
+   */
   const checkWishlist = (productId) => {
     // Implement your wishlist check logic here
     return false;
